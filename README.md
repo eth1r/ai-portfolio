@@ -28,7 +28,7 @@
 
 ```bash
 # Клонировать репозиторий
-git clone <repository-url>
+git clone https://github.com/eth1r/ai-portfolio.git
 cd ai-portfolio
 
 # Установить зависимости
@@ -60,6 +60,7 @@ ai-portfolio/
 │   │   ├── Header.jsx       # Навигация
 │   │   ├── CaseCard.jsx     # Карточка кейса
 │   │   ├── ContactForm.jsx  # Форма контакта
+│   │   ├── ChatWidget.jsx   # Глобальный AI-чат
 │   │   └── MermaidChart.jsx # Диаграммы (lazy loaded)
 │   ├── pages/               # Страницы
 │   │   ├── Home.jsx         # Главная (лендинг)
@@ -68,12 +69,20 @@ ai-portfolio/
 │   │   ├── Services.jsx     # Услуги
 │   │   ├── About.jsx        # Обо мне
 │   │   ├── Contact.jsx      # Контакты
-│   │   └── Lab.jsx          # Лаборатория (legacy)
+│   │   └── Lab.jsx          # Демо Telegram Return Bot
 │   ├── content/             # Централизованный контент
 │   │   └── siteContent.js   # Все тексты сайта
 │   ├── App.jsx              # Роутинг
 │   └── main.jsx             # Точка входа
+├── backend/                 # FastAPI backend для AI-чата
+│   ├── main.py              # Основной файл backend
+│   ├── requirements.txt     # Python зависимости
+│   └── .env.example         # Пример конфигурации
 ├── public/                  # Статические файлы
+├── scripts/                 # Build utilities
+│   ├── prerender.js         # Пререндеринг страниц
+│   ├── generate-sitemap.js  # Генерация sitemap
+│   └── generate-manifest.js # Генерация content manifest
 ├── projects.json            # Данные кейсов
 ├── .env.example             # Пример конфигурации
 └── vite.config.js           # Конфигурация Vite
@@ -278,9 +287,10 @@ npm run lint
 ## 💼 Услуги
 
 1. **AI-ассистенты для поддержки** - Умные чат-боты для Telegram, WhatsApp, сайта
-2. **Автоматизация процессов** - Workflow между сервисами, экономия времени
-3. **Обработка документов** - Извлечение данных из документов с помощью AI
-4. **Интеграции** - Связывание сервисов в единую систему
+2. **Автоматизация бизнес-процессов** - Workflow между сервисами, экономия времени
+3. **Обработка документов с AI** - Извлечение данных из документов с помощью AI
+4. **AI для точных ответов по документам** - RAG-системы с базой знаний
+5. **Быстрые AI-прототипы** - Проверка идей до полноценного внедрения
 
 ## 📈 Метрики
 
@@ -292,8 +302,7 @@ npm run lint
 ## 🤝 Контакты
 
 Для обсуждения проектов:
-- 💬 Telegram: @eth1r
-- 📧 Email: magazin.43@mail.ru
+- 💬 Telegram: [@eth1r](https://t.me/eth1r)
 
 ## 📄 Лицензия
 
@@ -301,6 +310,6 @@ npm run lint
 
 ---
 
-**Дата последнего обновления:** 21 марта 2026  
-**Версия:** 2.0.0  
+**Дата последнего обновления:** 1 мая 2026  
+**Версия:** 2.1.0  
 **Статус:** ✅ Production Ready

@@ -158,22 +158,6 @@ function Audit() {
           </div>
         </section>
 
-        {/* Контактные точки */}
-        <section className="audit-section">
-          <h2>📞 Контактные точки</h2>
-          <div className="audit-contacts">
-            <div className="audit-contact-card">
-              <strong>Email:</strong> contact@example.com
-            </div>
-            <div className="audit-contact-card">
-              <strong>Telegram:</strong> @username
-            </div>
-            <div className="audit-contact-card">
-              <strong>LinkedIn:</strong> linkedin.com/in/username
-            </div>
-          </div>
-        </section>
-
         {/* Технические ресурсы */}
         <section className="audit-section">
           <h2>🔧 Технические ресурсы</h2>
