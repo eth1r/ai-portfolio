@@ -1,2 +1,17 @@
+# Dependencies
+node_modules/
 
+# Build output
+dist/
+
+# Environment files — только примеры в репо, реальные только на сервере
+.env
+.env.local
+.env.production
+backend/.env
+return-bot.env      # секреты для return-bot контейнера
+
+# Editor / OS
 .kiro/
+.DS_Store
+*.log
