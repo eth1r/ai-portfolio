@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  ai-portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai_portfolio
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - portfolio_network
+      - proxy_network
+    depends_on:
+      - chat-backend
+
+  chat-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai_chat_backend
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    env_file:
+      - ./backend/.env
+    networks:
+      - portfolio_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  portfolio_network:
+    driver: bridge
+  proxy_network:
+    driver: bridge

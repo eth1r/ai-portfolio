@@ -1,0 +1,176 @@
+.case-card {
+  background: rgba(26, 29, 41, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s ease;
+}
+
+.case-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(58, 134, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(58, 134, 255, 0.15);
+}
+
+.case-header {
+  margin-bottom: 20px;
+}
+
+.case-category {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3A86FF;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.case-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+}
+
+.case-audience {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.case-pitch {
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 24px 0;
+}
+
+.case-result {
+  background: rgba(58, 134, 255, 0.1);
+  border-left: 3px solid #3A86FF;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.result-headline {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.result-metrics {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metric-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #3A86FF;
+}
+
+.metric-label {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.case-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.service-tag {
+  display: inline-block;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.case-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.case-actions .btn {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+}
+
+.btn-demo {
+  background: linear-gradient(135deg, #3A86FF 0%, #8338EC 100%);
+  color: white;
+  border: none;
+}
+
+.btn-demo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(58, 134, 255, 0.4);
+}
+
+.case-github-link {
+  display: block;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.case-github-link:hover {
+  color: var(--accent-blue);
+}
+
+.case-cta-link {
+  display: block;
+  text-align: center;
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.case-cta-link:hover {
+  color: var(--accent-blue-hover);
+}
+
+@media (max-width: 768px) {
+  .case-card {
+    padding: 24px;
+  }
+
+  .case-title {
+    font-size: 20px;
+  }
+
+  .result-metrics {
+    gap: 16px;
+  }
+
+  .metric-value {
+    font-size: 20px;
+  }
+}

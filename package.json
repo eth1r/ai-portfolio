@@ -1,0 +1,29 @@
+{
+  "name": "ai-portfolio",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && npm run postbuild",
+    "postbuild": "node scripts/prerender.js && node scripts/generate-manifest.js && node scripts/generate-sitemap.js",
+    "preview": "vite preview",
+    "lint": "eslint src --ext js,jsx",
+    "test": "bash test-local.sh"
+  },
+  "dependencies": {
+    "mermaid": "^11.12.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.1",
+    "react-router-dom": "^6.20.0",
+    "remark-gfm": "^4.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react": "^7.33.2",
+    "jsdom": "^29.0.1",
+    "vite": "^5.0.8"
+  }
+}

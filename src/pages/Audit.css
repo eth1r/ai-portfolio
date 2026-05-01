@@ -1,0 +1,430 @@
+.audit-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0e1a 0%, #1a1d29 100%);
+  padding: 2rem 1rem;
+}
+
+.audit-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.audit-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.audit-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #3A86FF 0%, #8338EC 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.audit-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1rem;
+}
+
+.audit-meta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+.audit-section {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.audit-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+/* Routes */
+.audit-routes {
+  display: grid;
+  gap: 1rem;
+}
+
+.audit-route-card {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.audit-route-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(58, 134, 255, 0.3);
+}
+
+.audit-route-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.audit-route-link {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  color: #3A86FF;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.audit-route-link:hover {
+  color: #8338EC;
+}
+
+.audit-route-badge {
+  padding: 0.25rem 0.75rem;
+  background: rgba(52, 199, 89, 0.2);
+  color: #34C759;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.audit-route-meta {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.25rem;
+}
+
+.audit-route-meta strong {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Sections */
+.audit-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.audit-section-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.audit-section-number {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #3A86FF 0%, #8338EC 100%);
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.audit-section-content h3 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  color: #fff;
+}
+
+.audit-section-content p {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Cases */
+.audit-cases {
+  display: grid;
+  gap: 1rem;
+}
+
+.audit-case-card {
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.audit-case-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.audit-case-link {
+  font-size: 1.1rem;
+  color: #3A86FF;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.audit-case-link:hover {
+  color: #8338EC;
+}
+
+.audit-badge-featured {
+  padding: 0.25rem 0.5rem;
+  background: rgba(255, 149, 0, 0.2);
+  color: #FF9500;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.audit-case-meta {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.75rem;
+}
+
+.audit-case-category {
+  padding: 0.25rem 0.5rem;
+  background: rgba(131, 56, 236, 0.2);
+  color: #8338EC;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.audit-case-pitch {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+}
+
+/* Services */
+.audit-services {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.audit-service-card {
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.audit-service-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: #fff;
+}
+
+.audit-service-card p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.audit-service-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.audit-service-features li {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  padding-left: 1.25rem;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.audit-service-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #34C759;
+}
+
+/* CTA */
+.audit-cta-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.audit-cta-card {
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.audit-cta-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.audit-cta-card p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1rem;
+}
+
+.audit-cta-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #3A86FF 0%, #8338EC 100%);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* FAQ */
+.audit-faq-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.audit-faq-item {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.audit-faq-item h4 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.audit-faq-item p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+}
+
+/* Contacts */
+.audit-contacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.audit-contact-card {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.audit-contact-card strong {
+  color: #fff;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* Resources */
+.audit-resources {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.audit-resource-link {
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #3A86FF;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.audit-resource-link:hover {
+  background: rgba(58, 134, 255, 0.1);
+  border-color: rgba(58, 134, 255, 0.3);
+  color: #8338EC;
+}
+
+/* Structure */
+.audit-structure pre {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Footer */
+.audit-footer {
+  text-align: center;
+  padding: 2rem;
+  margin-top: 3rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.audit-footer p {
+  margin-bottom: 0.5rem;
+}
+
+.audit-footer-note {
+  margin-top: 1rem;
+}
+
+.audit-footer-note a {
+  color: #3A86FF;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.audit-footer-note a:hover {
+  color: #8338EC;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .audit-header h1 {
+    font-size: 2rem;
+  }
+  
+  .audit-sections,
+  .audit-services,
+  .audit-cta-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .audit-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

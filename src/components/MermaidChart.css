@@ -1,0 +1,76 @@
+.mermaid-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 20px 0;
+  margin: 20px 0;
+  background: rgba(13, 15, 20, 0.4);
+  border-radius: 12px;
+  border: 1px solid rgba(58, 134, 255, 0.2);
+}
+
+.mermaid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(58, 134, 255, 0.15));
+}
+
+.mermaid-loading {
+  text-align: center;
+  padding: 40px 20px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+.mermaid-error {
+  text-align: center;
+  padding: 40px 20px;
+  color: #FF3B30;
+  font-size: 14px;
+  background: rgba(255, 59, 48, 0.1);
+  border: 1px solid rgba(255, 59, 48, 0.3);
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+/* Улучшенная читаемость для узлов диаграммы */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon {
+  stroke-width: 2px;
+  filter: drop-shadow(0 2px 8px rgba(58, 134, 255, 0.3));
+}
+
+.mermaid .edgeLabel {
+  background-color: rgba(26, 29, 41, 0.9) !important;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .mermaid-container {
+    padding: 16px 8px;
+    margin: 16px 0;
+  }
+
+  .mermaid svg {
+    font-size: 12px;
+  }
+}
+
+/* Поддержка reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .mermaid svg * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

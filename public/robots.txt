@@ -1,0 +1,11 @@
+# robots.txt for portfolio.aiworker43.ru
+
+User-agent: *
+Allow: /
+Disallow: /audit
+
+# Sitemap
+Sitemap: https://portfolio.aiworker43.ru/sitemap.xml
+
+# Crawl-delay (optional, for polite crawling)
+Crawl-delay: 1

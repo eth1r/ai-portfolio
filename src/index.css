@@ -1,0 +1,119 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Typography */
+  --font-primary: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-code: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', monospace;
+  --line-height-base: 1.6;
+  
+  /* Colors - Modern Business Palette */
+  --bg-primary: #0F1117;
+  --bg-secondary: #1a1d29;
+  --bg-card: rgba(26, 29, 41, 0.6);
+  --accent: #3A86FF;
+  --accent-hover: #2E6FDB;
+  --accent-secondary: #8338EC;
+  --text-primary: #FFFFFF;
+  --text-secondary: #B8B8B8;
+  --border: #2a2d3a;
+  --border-glow: rgba(58, 134, 255, 0.3);
+  
+  /* Gradients */
+  --accent-gradient: linear-gradient(135deg, #3A86FF 0%, #8338EC 100%);
+  
+  /* Effects */
+  --blur-amount: 10px;
+  
+  /* Transitions */
+  --transition-base: 0.3s ease;
+  
+  /* Metric Colors */
+  --metric-high: #34C759;
+  --metric-medium: #FF9500;
+  --metric-low: #FF3B30;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: var(--line-height-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Заголовки используют основной шрифт */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  line-height: 1.3;
+}
+
+/* Параграфы используют основной шрифт */
+p {
+  font-family: var(--font-primary);
+  line-height: var(--line-height-base);
+}
+
+/* Моноширинный шрифт ТОЛЬКО для кода и промптов */
+code,
+pre,
+.code,
+.prompt,
+.technical-stack-text {
+  font-family: var(--font-code);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: all 0.2s;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Accessibility: Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
