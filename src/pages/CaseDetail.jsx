@@ -1,69 +1,75 @@
-import { useEffect, useState } from 'react'
-import { useParams, Link, useLocation } from 'react-router-dom'
-import MermaidChart from '../components/MermaidChart'
-import TelegramReturnBotDemo from '../components/TelegramReturnBotDemo'
-import './CaseDetail.css'
+import { useEffect, useState } from "react";
+import { useParams, Link, useLocation } from "react-router-dom";
+import MermaidChart from "../components/MermaidChart";
+import ProjectBotDemoWidget from "../components/ProjectBotDemoWidget";
+import "./CaseDetail.css";
 
 function CaseDetail() {
-  const { slug } = useParams()
-  const location = useLocation()
-  const [project, setProject] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [showTechnical, setShowTechnical] = useState(false)
+  const { slug } = useParams();
+  const location = useLocation();
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [showTechnical, setShowTechnical] = useState(false);
 
   useEffect(() => {
-    fetch('/projects.json')
-      .then(res => res.json())
-      .then(data => {
-        const found = data.find(p => p.slug === slug)
-        setProject(found)
-        setLoading(false)
-        
+    fetch("/projects.json")
+      .then((res) => res.json())
+      .then((data) => {
+        const found = data.find((p) => p.slug === slug);
+        setProject(found);
+        setLoading(false);
+
         // Обновляем title страницы
         if (found) {
-          document.title = `${found.title} | AI и Автоматизация`
+          document.title = `${found.title} | AI и Автоматизация`;
           // Обновляем meta description
-          const metaDescription = document.querySelector('meta[name="description"]')
+          const metaDescription = document.querySelector(
+            'meta[name="description"]',
+          );
           if (metaDescription) {
-            metaDescription.setAttribute('content', found.short_pitch)
+            metaDescription.setAttribute("content", found.short_pitch);
           }
         }
       })
-      .catch(err => {
-        console.error('Error loading project:', err)
-        setLoading(false)
-      })
-  }, [slug])
+      .catch((err) => {
+        console.error("Error loading project:", err);
+        setLoading(false);
+      });
+  }, [slug]);
 
   // Скролл к демо если есть хэш #demo
   useEffect(() => {
-    if (location.hash === '#demo' && project) {
+    if (location.hash === "#demo" && project) {
       setTimeout(() => {
-        const demoSection = document.getElementById('demo-section')
+        const demoSection = document.getElementById("demo-section");
         if (demoSection) {
-          demoSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          demoSection.scrollIntoView({ behavior: "smooth", block: "start" });
         }
-      }, 100)
+      }, 100);
     }
-  }, [location, project])
+  }, [location, project]);
 
   if (loading) {
-    return <div className="case-detail loading">Загрузка...</div>
+    return <div className="case-detail loading">Загрузка...</div>;
   }
 
   if (!project) {
     return (
       <div className="case-detail not-found">
         <h1>Кейс не найден</h1>
-        <Link to="/cases" className="btn btn-primary">← Все кейсы</Link>
+        <Link to="/cases" className="btn btn-primary">
+          ← Все кейсы
+        </Link>
       </div>
-    )
+    );
   }
 
   return (
     <div className="case-detail">
       <div className="case-detail-header">
-        <Link to="/cases" className="back-link">← Все кейсы</Link>
+        <Link to="/cases" className="back-link">
+          ← Все кейсы
+        </Link>
         <span className="case-category-badge">{project.category}</span>
         <h1 className="case-detail-title">{project.title}</h1>
         <p className="case-detail-audience">Для кого: {project.audience}</p>
@@ -154,21 +160,20 @@ function CaseDetail() {
         <h2 className="section-title">Технологии</h2>
         <div className="stack-tags">
           {project.stack.map((tech, index) => (
-            <span key={index} className="stack-tag">{tech}</span>
+            <span key={index} className="stack-tag">
+              {tech}
+            </span>
           ))}
         </div>
       </section>
 
-      {project.demo_mode && (
+      {project.demoWidget?.enabled && (
         <section className="case-section demo-section" id="demo-section">
           <h2 className="section-title">Попробовать демо</h2>
           <p className="section-subtitle">
             Можно пройти упрощённый сценарий общения с ботом прямо на сайте
           </p>
-          <p className="demo-disclaimer">
-            ⚠️ Это демонстрационный режим. Заявки из этого виджета не отправляются реальному оператору.
-          </p>
-          <TelegramReturnBotDemo />
+          <ProjectBotDemoWidget config={project.demoWidget} />
         </section>
       )}
 
@@ -178,11 +183,21 @@ function CaseDetail() {
           Расскажите о вашей задаче — предложу решение и оценю сроки
         </p>
         <div className="cta-buttons">
-          <a href="https://t.me/eth1r" target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-large">
+          <a
+            href="https://t.me/eth1r"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary btn-large"
+          >
             Обсудить проект
           </a>
-          {project.links?.github && project.links.github !== '#' && (
-            <a href={project.links.github} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-large">
+          {project.links?.github && project.links.github !== "#" && (
+            <a
+              href={project.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary btn-large"
+            >
               Код на GitHub
             </a>
           )}
@@ -191,21 +206,23 @@ function CaseDetail() {
 
       {project.technical_details && project.technical_details.show_in_ui && (
         <section className="case-section technical-section">
-          <button 
+          <button
             className="technical-toggle"
             onClick={() => setShowTechnical(!showTechnical)}
           >
-            {showTechnical ? '▼' : '▶'} Технические детали
+            {showTechnical ? "▼" : "▶"} Технические детали
           </button>
-          
+
           {showTechnical && (
             <div className="technical-content">
-              <p className="technical-summary">{project.technical_details.summary}</p>
-              
+              <p className="technical-summary">
+                {project.technical_details.summary}
+              </p>
+
               {project.technical_details.architecture_diagram && (
                 <div className="architecture-section">
                   <h3 className="subsection-title">Архитектура решения</h3>
-                  <MermaidChart 
+                  <MermaidChart
                     chart={project.technical_details.architecture_diagram}
                     id={`detail-diagram-${project.id}`}
                   />
@@ -216,7 +233,7 @@ function CaseDetail() {
         </section>
       )}
     </div>
-  )
+  );
 }
 
-export default CaseDetail
+export default CaseDetail;
