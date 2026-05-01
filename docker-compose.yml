@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   ai-portfolio:
@@ -16,6 +16,7 @@ services:
       - proxy_network
     depends_on:
       - chat-backend
+      - return-bot
 
   chat-backend:
     build:
@@ -34,6 +35,24 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+  return-bot:
+    # Telegram-бот возвратов + web API для демо-виджета.
+    # Образ берём из отдельного репозитория — собираем при деплое.
+    # На сервере: cd /path/to/telegram-return-bot && docker build -t return-bot .
+    image: return-bot:latest
+    container_name: return_bot
+    restart: unless-stopped
+    env_file:
+      - ./return-bot.env # TELEGRAM_BOT_TOKEN, OPERATOR_CHAT_ID, OPENAI_API_KEY
+    networks:
+      - portfolio_network # nginx видит контейнер как "return-bot:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/return-bot/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    # Внешний порт НЕ открываем — трафик идёт только через nginx портфолио
 
 networks:
   portfolio_network:
