@@ -17,6 +17,7 @@ services:
     depends_on:
       - chat-backend
       - return-bot
+      - onboarding-coach
 
   chat-backend:
     build:
@@ -49,6 +50,24 @@ services:
       - portfolio_network # nginx видит контейнер как "return-bot:8000"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/return-bot/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    # Внешний порт НЕ открываем — трафик идёт только через nginx портфолио
+
+  onboarding-coach:
+    # AI-наставник для онбординга + web API для демо-виджета.
+    # Образ берём из отдельного репозитория — собираем при деплое.
+    # На сервере: cd /path/to/DevStandart-Coach && docker build -f Dockerfile.web -t onboarding-coach .
+    image: onboarding-coach:latest
+    container_name: onboarding_coach
+    restart: unless-stopped
+    env_file:
+      - ./onboarding-coach.env # OPENAI_API_KEY, TRAINING_TOPIC, TRAINING_MATERIAL, etc.
+    networks:
+      - portfolio_network # nginx видит контейнер как "onboarding-coach:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/onboarding-coach/health"]
       interval: 30s
       timeout: 10s
       retries: 3

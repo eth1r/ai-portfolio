@@ -25,6 +25,19 @@ RUN echo 'server { \
     root /usr/share/nginx/html; \
     index index.html; \
     \
+    # onboarding-coach демо-виджет — должен быть ВЫШЕ общего /api/ \
+    location /api/onboarding-coach/ { \
+        proxy_pass http://onboarding-coach:8000/api/onboarding-coach/; \
+        proxy_http_version 1.1; \
+        proxy_set_header Host $host; \
+        proxy_set_header X-Real-IP $remote_addr; \
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; \
+        proxy_set_header X-Forwarded-Proto $scheme; \
+        proxy_connect_timeout 60s; \
+        proxy_send_timeout 120s; \
+        proxy_read_timeout 120s; \
+    } \
+    \
     # return-bot демо-виджет — должен быть ВЫШЕ общего /api/, иначе nginx не дойдёт \
     location /api/return-bot/ { \
         proxy_pass http://return-bot:8000/api/return-bot/; \
