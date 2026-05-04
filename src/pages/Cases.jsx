@@ -24,7 +24,7 @@ function Cases() {
       })
   }, [])
 
-  const categories = ['all', 'RAG / База знаний', 'Документы', 'Автоматизация', 'Поддержка и автоматизация']
+  const categories = ['all', 'RAG / База знаний', 'Документы', 'Автоматизация', 'Поддержка и автоматизация', 'Обучение и автоматизация']
   
   const filteredProjects = filter === 'all' 
     ? projects 

@@ -1,6 +1,6 @@
 # Deploy Onboarding Coach to Production
 
-Инструкции по деплою AI-наставника для онбординга на production сервер.
+Инструкция по деплою AI-наставника для онбординга на production сервер.
 
 ## Предварительные требования
 
@@ -11,19 +11,19 @@
 ## Шаг 1: Подготовка DevStandart-Coach на сервере
 
 ```bash
-# SSH на сервер
+# Подключаемся к серверу
 ssh user@130.49.151.250
 
-# Перейти в директорию приложений
+# Переходим в директорию проектов
 cd /opt/apps
 
-# Клонировать или обновить репозиторий
+# Клонируем или обновляем репозиторий DevStandart-Coach
 git clone https://github.com/eth1r/DevStandart-Coach.git
 # или если уже есть:
 cd DevStandart-Coach
 git pull origin main
 
-# Создать .env файл
+# Создаём .env файл
 cp .env.example .env
 nano .env
 ```
@@ -31,92 +31,86 @@ nano .env
 ### Заполнить .env:
 
 ```env
-BOT_TOKEN=not_needed_for_web_api
-DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/onboarding
-OPENAI_API_KEY=sk-ваш-реальный-ключ
+OPENAI_API_KEY=sk-your-real-key-here
 OPENAI_MODEL=gpt-4.1-mini
 OPENAI_BASE_URL=https://api.openai.com/v1
 TRAINING_TOPIC=Регламент работы команды
 TRAINING_MATERIAL=Команда использует асинхронную коммуникацию по умолчанию. Все задачи фиксируются в трекере. Блокеры нужно эскалировать в течение 30 минут. Перед релизом обязательны code review, зеленые тесты и запись в changelog.
 QUIZ_QUESTION_COUNT=5
-LOG_LEVEL=INFO
 WEB_DEMO_WRITE_TO_DB=false
+LOG_LEVEL=INFO
+DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/onboarding
+BOT_TOKEN=not_needed_for_web_api
 ```
 
-**ВАЖНО:** `WEB_DEMO_WRITE_TO_DB=false` — это критично для безопасности!
-
-## Шаг 2: Собрать Docker образ
+## Шаг 2: Собрать образ onboarding-coach
 
 ```bash
 cd /opt/apps/DevStandart-Coach
 docker build -f Dockerfile.web -t onboarding-coach:latest .
 ```
 
-Проверить, что образ создан:
-```bash
-docker images | grep onboarding-coach
-```
-
-## Шаг 3: Создать env файл для docker-compose
-
-```bash
-cd /opt/apps/ai_portfolio
-
-# Создать onboarding-coach.env
-cp onboarding-coach.env.example onboarding-coach.env
-nano onboarding-coach.env
-```
-
-Заполнить теми же значениями, что и в `/opt/apps/DevStandart-Coach/.env`
-
-## Шаг 4: Обновить ai-portfolio
+## Шаг 3: Обновить ai-portfolio на сервере
 
 ```bash
 cd /opt/apps/ai_portfolio
 git pull origin main
 ```
 
-Проверить, что изменения применились:
-- `Dockerfile` содержит proxy для `/api/onboarding-coach/`
-- `docker-compose.yml` содержит сервис `onboarding-coach`
+## Шаг 4: Создать onboarding-coach.env
 
-## Шаг 5: Пересобрать и запустить контейнеры
+```bash
+cd /opt/apps/ai_portfolio
+cp onboarding-coach.env.example onboarding-coach.env
+nano onboarding-coach.env
+```
+
+Заполнить реальными значениями (можно скопировать из `/opt/apps/DevStandart-Coach/.env`).
+
+## Шаг 5: Поднять сервисы
 
 ```bash
 cd /opt/apps/ai_portfolio
 
-# Остановить текущие контейнеры
+# Остановить старые контейнеры (если нужно)
 docker compose down
 
-# Пересобрать ai_portfolio (nginx с новым proxy)
-docker compose build ai-portfolio
-
-# Запустить все сервисы
-docker compose up -d
+# Поднять все сервисы включая onboarding-coach
+docker compose up -d --build
 ```
 
 ## Шаг 6: Проверить статус контейнеров
 
 ```bash
-docker ps
-
-# Должны быть running:
-# - ai_portfolio
-# - ai_chat_backend
-# - return_bot
-# - onboarding_coach
+docker ps | grep -E "ai_portfolio|ai_chat_backend|return_bot|onboarding_coach"
 ```
 
-Проверить логи:
-```bash
-docker logs onboarding_coach
-docker logs ai_portfolio
+Ожидаемый вывод:
+```
+CONTAINER ID   IMAGE                    STATUS         PORTS                  NAMES
+xxxxx          ai-portfolio_ai-portfolio   Up 2 minutes   0.0.0.0:8081->80/tcp   ai_portfolio
+xxxxx          ai-portfolio_chat-backend   Up 2 minutes   0.0.0.0:8001->8000/tcp ai_chat_backend
+xxxxx          return-bot:latest           Up 2 minutes                          return_bot
+xxxxx          onboarding-coach:latest     Up 2 minutes                          onboarding_coach
 ```
 
-## Шаг 7: Проверить endpoints
+## Шаг 7: Проверить логи
 
-### Health check:
 ```bash
+# Логи onboarding-coach
+docker logs onboarding_coach --tail 50
+
+# Логи ai_portfolio (nginx)
+docker logs ai_portfolio --tail 50
+```
+
+## Шаг 8: Проверить endpoints
+
+```bash
+# Health check
+curl http://localhost:8081/api/onboarding-coach/health
+
+# Через production домен
 curl https://portfolio.aiworker43.ru/api/onboarding-coach/health
 ```
 
@@ -125,7 +119,8 @@ curl https://portfolio.aiworker43.ru/api/onboarding-coach/health
 {"status":"ok","service":"onboarding-coach-web-api"}
 ```
 
-### Chat endpoint:
+## Шаг 9: Тестовый chat запрос
+
 ```bash
 curl -X POST https://portfolio.aiworker43.ru/api/onboarding-coach/chat \
   -H "Content-Type: application/json" \
@@ -135,25 +130,7 @@ curl -X POST https://portfolio.aiworker43.ru/api/onboarding-coach/chat \
   }'
 ```
 
-Ожидаемый ответ:
-```json
-{
-  "reply": "Напишите ваше имя, чтобы начать обучение.",
-  "done": false,
-  "collected_data": null,
-  "result_preview": null,
-  "submitted_to_db": false
-}
-```
-
-### Reset session:
-```bash
-curl -X DELETE https://portfolio.aiworker43.ru/api/onboarding-coach/session/test_deploy_123
-```
-
-Ожидаемый ответ: `204 No Content`
-
-## Шаг 8: Проверить страницу кейса
+## Шаг 10: Проверить страницу кейса
 
 Открыть в браузере:
 ```
@@ -166,58 +143,30 @@ https://portfolio.aiworker43.ru/cases/ai-onboarding-coach
 - ✅ Quick prompts работают
 - ✅ Можно отправить сообщение
 - ✅ Бот отвечает
-- ✅ Можно пройти сценарий обучения
-- ✅ Итоговый результат отображается
 - ✅ Reset работает
-
-## Шаг 9: Проверить безопасность
-
-Убедиться, что demo mode не пишет в БД:
-
-```bash
-# Проверить логи onboarding_coach
-docker logs onboarding_coach | grep -i "demo\|db\|write"
-
-# Проверить env
-docker exec onboarding_coach env | grep WEB_DEMO_WRITE_TO_DB
-```
-
-Должно быть: `WEB_DEMO_WRITE_TO_DB=false`
-
-## Шаг 10: Проверить существующие сервисы
-
-Убедиться, что ничего не сломалось:
-
-### Return bot:
-```bash
-curl https://portfolio.aiworker43.ru/api/return-bot/health
-```
-
-### Chat backend:
-```bash
-curl https://portfolio.aiworker43.ru/api/health
-```
-
-### Главная страница:
-```
-https://portfolio.aiworker43.ru
-```
 
 ## Troubleshooting
 
 ### Проблема: onboarding_coach не запускается
 
-**Решение:**
+**Проверить:**
 ```bash
 docker logs onboarding_coach
-# Проверить ошибки в логах
+```
 
-# Проверить env файл
-cat /opt/apps/ai_portfolio/onboarding-coach.env
+**Возможные причины:**
+- Неправильный OPENAI_API_KEY
+- Отсутствует onboarding-coach.env
+- Образ не собран
 
+**Решение:**
+```bash
 # Пересобрать образ
 cd /opt/apps/DevStandart-Coach
 docker build -f Dockerfile.web -t onboarding-coach:latest .
+
+# Проверить env
+cat /opt/apps/ai_portfolio/onboarding-coach.env
 
 # Перезапустить
 cd /opt/apps/ai_portfolio
@@ -226,111 +175,112 @@ docker compose restart onboarding-coach
 
 ### Проблема: 502 Bad Gateway на /api/onboarding-coach/
 
-**Причина:** nginx не может достучаться до контейнера
+**Проверить:**
+```bash
+# Контейнер запущен?
+docker ps | grep onboarding_coach
+
+# Healthcheck проходит?
+docker inspect onboarding_coach | grep -A 10 Health
+```
 
 **Решение:**
 ```bash
-# Проверить, что контейнер running
-docker ps | grep onboarding
-
-# Проверить сеть
-docker network inspect ai_portfolio_portfolio_network
-
-# Проверить, что onboarding-coach в сети
-docker inspect onboarding_coach | grep -A 10 Networks
-
-# Перезапустить ai_portfolio
-docker compose restart ai-portfolio
+# Проверить внутреннюю связность
+docker exec ai_portfolio curl http://onboarding-coach:8000/api/onboarding-coach/health
 ```
 
-### Проблема: 503 Service Unavailable
+### Проблема: Demo пишет в БД
 
-**Причина:** Сервис не инициализирован
+**Проверить:**
+```bash
+grep WEB_DEMO_WRITE_TO_DB /opt/apps/ai_portfolio/onboarding-coach.env
+```
+
+Должно быть: `WEB_DEMO_WRITE_TO_DB=false`
+
+### Проблема: return-bot или chat-backend сломались
+
+**Проверить:**
+```bash
+docker ps -a | grep -E "return_bot|chat_backend"
+docker logs return_bot --tail 20
+docker logs ai_chat_backend --tail 20
+```
 
 **Решение:**
 ```bash
-# Проверить логи
-docker logs onboarding_coach
-
-# Проверить OPENAI_API_KEY
-docker exec onboarding_coach env | grep OPENAI_API_KEY
-
-# Перезапустить с чистыми логами
-docker compose restart onboarding-coach
-docker logs -f onboarding_coach
+docker compose restart return-bot
+docker compose restart chat-backend
 ```
 
-### Проблема: CORS error в браузере
-
-**Причина:** Домен не в allowed_origins
-
-**Решение:**
-Проверить `web/api.py` в DevStandart-Coach:
-```python
-allowed_origins = [
-    "https://portfolio.aiworker43.ru",
-    "http://portfolio.aiworker43.ru",
-    ...
-]
-```
-
-## Rollback
+## Откат изменений
 
 Если что-то пошло не так:
 
 ```bash
 cd /opt/apps/ai_portfolio
 
-# Откатить изменения
-git checkout HEAD~1 Dockerfile docker-compose.yml
+# Остановить onboarding-coach
+docker compose stop onboarding-coach
 
-# Пересобрать
-docker compose build ai-portfolio
+# Удалить контейнер
+docker compose rm -f onboarding-coach
 
-# Перезапустить без onboarding-coach
-docker compose up -d ai-portfolio chat-backend return-bot
+# Вернуться к предыдущей версии docker-compose.yml
+git checkout HEAD~1 docker-compose.yml Dockerfile
+
+# Перезапустить остальные сервисы
+docker compose up -d
 ```
 
 ## Мониторинг
 
-### Проверка здоровья:
+### Проверка здоровья сервисов
+
 ```bash
-watch -n 5 'curl -s https://portfolio.aiworker43.ru/api/onboarding-coach/health | jq'
+# Все контейнеры
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+
+# Health checks
+curl https://portfolio.aiworker43.ru/api/health
+curl https://portfolio.aiworker43.ru/api/return-bot/health
+curl https://portfolio.aiworker43.ru/api/onboarding-coach/health
 ```
 
-### Логи в реальном времени:
+### Логи в реальном времени
+
 ```bash
 docker logs -f onboarding_coach
 ```
 
-### Статус всех контейнеров:
+### Использование ресурсов
+
 ```bash
-docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+docker stats onboarding_coach
 ```
 
-## Успешный деплой
+## Обновление в будущем
 
-После успешного деплоя должно быть:
+```bash
+# 1. Обновить код
+cd /opt/apps/DevStandart-Coach
+git pull origin main
 
-✅ 4 контейнера running:
-- ai_portfolio
-- ai_chat_backend  
-- return_bot
-- onboarding_coach
+# 2. Пересобрать образ
+docker build -f Dockerfile.web -t onboarding-coach:latest .
 
-✅ Все health checks проходят:
-- /api/health
-- /api/return-bot/health
-- /api/onboarding-coach/health
+# 3. Перезапустить сервис
+cd /opt/apps/ai_portfolio
+docker compose up -d --no-deps --build onboarding-coach
 
-✅ Страница кейса работает:
-- https://portfolio.aiworker43.ru/cases/ai-onboarding-coach
+# 4. Проверить
+curl https://portfolio.aiworker43.ru/api/onboarding-coach/health
+```
 
-✅ Demo mode безопасный:
-- `submitted_to_db: false` в ответах
-- `WEB_DEMO_WRITE_TO_DB=false` в env
+## Контакты
 
-✅ Существующие сервисы не сломаны:
-- Главная страница загружается
-- Return bot работает
-- Общий чат работает
+- **GitHub ai-portfolio:** https://github.com/eth1r/ai-portfolio
+- **GitHub DevStandart-Coach:** https://github.com/eth1r/DevStandart-Coach
+- **Production:** https://portfolio.aiworker43.ru
+- **Telegram:** https://t.me/eth1r
