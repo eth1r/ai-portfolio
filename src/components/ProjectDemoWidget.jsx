@@ -216,6 +216,16 @@ function ProjectDemoWidget({ config }) {
               {prompt}
             </button>
           ))}
+          {/* Кнопка "Далее" для быстрого подтверждения */}
+          {messages.length > 1 && !isLoading && (
+            <button
+              className="quick-prompt-btn next-btn"
+              onClick={() => handleQuickPrompt('Да, готов')}
+              disabled={isLoading}
+            >
+              Далее →
+            </button>
+          )}
         </div>
       )}
 

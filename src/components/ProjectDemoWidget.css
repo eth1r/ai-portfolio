@@ -136,6 +136,19 @@
   cursor: not-allowed;
 }
 
+.quick-prompt-btn.next-btn {
+  background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+  border-color: rgba(52, 199, 89, 0.5);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.quick-prompt-btn.next-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #30D158 0%, #34C759 100%);
+  border-color: rgba(52, 199, 89, 0.7);
+  box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);
+}
+
 .demo-messages {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 12px;
