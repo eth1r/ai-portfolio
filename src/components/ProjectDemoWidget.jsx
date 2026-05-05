@@ -91,9 +91,9 @@ function ProjectDemoWidget({ config }) {
       // Добавляем ответ бота
       const botMessage = {
         role: 'assistant',
-        content: data.response,
+        content: data.reply || data.response, // backend возвращает reply, не response
         timestamp: new Date(),
-        is_final: data.is_final || false
+        is_final: data.done || data.is_final || false
       }
       setMessages(prev => [...prev, botMessage])
 
